@@ -1,0 +1,55 @@
+version: "2"
+
+run:
+  timeout: 3m
+
+linters:
+  default: none
+  enable:
+    - bodyclose
+    - errcheck
+    - errorlint
+    - govet
+    - ineffassign
+    - loggercheck
+    - misspell
+    - nilerr
+    - nilnil
+    - noctx
+    - rowserrcheck
+    - sloglint
+    - sqlclosecheck
+    - staticcheck
+    - unconvert
+    - unused
+    - wastedassign
+
+  settings:
+    errcheck:
+      check-type-assertions: true
+      exclude-functions:
+        - io.Closer.Close
+        - (*database/sql.DB).Close
+        - (io.ReadCloser).Close
+        - (net/http.Response).Body.Close
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - gci
+    - goimports
+    - golines
+  settings:
+    gofmt:
+      simplify: true
+    gofumpt:
+      extra:
+        group-params: true
+    gci:
+      sections:
+        - Standard
+        - Default
+        - Prefix(github.com/fr33dman/go-template)
+    goimports:
+      local-prefixes:
+        - github.com/fr33dman/go-template

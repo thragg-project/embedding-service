@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./extra-resources/go-template.Namespace.yaml
+  - ./resources/embedding-service.embedding-system.Deployment.yaml
+  - ./resources/embedding-service.embedding-system.Service.yaml
+
+secretGenerator:
+  - name: providers-config
+    files:
+      - resources/providers-config.yaml
+
+images:
+  - name: application-image
+    newName: docker.io/fr33dman/go-template
+    newTag: latest

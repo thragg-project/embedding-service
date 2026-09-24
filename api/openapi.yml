@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Embedding Service API
+  version: 1.0.0
+  description: API gateway with llm providers.
+servers:
+  - url: /api/v1/embeddings
+tags:
+  - name: Models
+  - name: Embeddings
+paths:
+  /models:
+    get:
+      tags:
+        - Models
+      operationId: getModels
+      summary: Get active embedding models
+      responses:
+        "200":
+          description: Embedding models retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Models"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+  /generate:
+    post:
+      tags:
+        - Embeddings
+      operationId: generateVectors
+      summary: Generate vector in embedding model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateEmbeddings"
+      responses:
+        "200":
+          description: Generated embeddings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GeneratedEmbeddings"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+components:
+  responses:
+    400:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    401:
+      description: Not authorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    403:
+      description: Not allowed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    404:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    Models:
+      type: object
+      additionalProperties: false
+      required:
+        - models
+      properties:
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/Model"
+    Model:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - dimensions
+        - max_input_tokens
+        - multilingual
+      properties:
+        name:
+          type: string
+          description: "Embedding model name"
+          example: "bge-m3"
+        dimensions:
+          type: integer
+          description: "Resulting vector length"
+          example: 1024
+        max_input_tokens:
+          type: integer
+          description: "Maximum input tokens that model can operate"
+          example: 8192
+        multilingual:
+          type: boolean
+          description: "Can this model operate with non-english languages"
+          example: true
+    GenerateEmbeddings:
+      type: object
+      additionalProperties: false
+      required:
+        - model
+        - input
+        - input_type
+      properties:
+        model:
+          type: string
+          description: "Embedding model name"
+          example: "bge-m3"
+        input:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/InputData"
+        input_type:
+          type: string
+          enum:
+            - query
+            - document
+          description: "Type of text you embedding, query (question) or document (preparing knowledge base)"
+          example: query
+    InputData:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - text
+      properties:
+        id:
+          type: string
+          description: "Input text correlation id"
+          example: "chunk#3142"
+        text:
+          type: string
+          description: "String to embed"
+          example: Some string to vectorize
+    GeneratedEmbeddings:
+      type: object
+      additionalProperties: false
+      required:
+        - model
+        - dimensions
+        - embeddings
+      properties:
+        model:
+          type: string
+          description: "Embedding model name"
+          example: "bge-m3"
+        dimensions:
+          type: integer
+          description: "Resulting vector length"
+          example: 1024
+        embeddings:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmbeddingData"
+    EmbeddingData:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - vector
+      properties:
+        id:
+          type: string
+          description: "Input text correlation id"
+          example: "chunk#3142"
+        vector:
+          type: array
+          items:
+            type: number
+            format: float
+          description: "String to embed"
+          example:
+            - 0.12
+            - -0.42
+            - 0.81
+            - 0.33
+            - 0.11
+            - -0.72
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: error message

@@ -1,0 +1,49 @@
+name: Pull request
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: k8s-runners
+    container: golang:1.27.0-bookworm
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Run tests
+        run: go test ./...
+
+  lint:
+    runs-on: k8s-runners
+    container: golangci/golangci-lint:v2.13.2
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Run linters
+        run: golangci-lint run
+
+  build:
+    needs:
+      - test
+      - lint
+    runs-on: k8s-runners
+    container:
+      image: moby/buildkit:v0.33.0-ubuntu
+    env:
+      BUILDKIT_HOST: tcp://buildkitd.buildkit.svc.cluster.local:1234
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Build container image
+        run: |
+          buildctl build \
+            --frontend dockerfile.v0 \
+            --local context=. \
+            --local dockerfile=./build \
+            --opt filename=Dockerfile \
+            --opt build-arg:VERSION="${GITHUB_SHA}" \
+            --opt build-arg:COMMIT_HASH="${GITHUB_SHA}" \
+            --opt build-arg:DATETIME="$(date -u +%FT%TZ)"

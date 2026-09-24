@@ -1,0 +1,52 @@
+name: Release image
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ vars.DOCKERHUB_REPOSITORY }}
+
+jobs:
+  build:
+    runs-on: k8s-runners
+    container: buildah/stable:v1.39.3
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Build container image
+        run: |
+          buildah bud \
+            --build-arg VERSION="${GITHUB_REF_NAME}" \
+            --build-arg COMMIT_HASH="${GITHUB_SHA}" \
+            --build-arg DATETIME="$(date -u +%FT%TZ)" \
+            --tag "${IMAGE_NAME}:${GITHUB_REF_NAME}" \
+            --file ./build/Dockerfile .
+
+  publish:
+    needs: build
+    runs-on: k8s-runners
+    container: buildah/stable:v1.39.3
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Build release image
+        run: |
+          buildah bud \
+            --build-arg VERSION="${GITHUB_REF_NAME}" \
+            --build-arg COMMIT_HASH="${GITHUB_SHA}" \
+            --build-arg DATETIME="$(date -u +%FT%TZ)" \
+            --tag "${IMAGE_NAME}:${GITHUB_REF_NAME}" \
+            --file ./build/Dockerfile .
+      - name: Log in to Docker Hub
+        run: printf '%s' "$DOCKERHUB_TOKEN" | buildah login --username "$DOCKERHUB_USERNAME" --password-stdin "$REGISTRY"
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push image
+        run: buildah push "${IMAGE_NAME}:${GITHUB_REF_NAME}" "docker://${IMAGE_NAME}:${GITHUB_REF_NAME}"

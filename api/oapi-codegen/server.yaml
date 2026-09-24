@@ -1,0 +1,5 @@
+package: gen
+generate:
+  echo-server: true
+  strict-server: true
+output: internal/server/gen/server.gen.go

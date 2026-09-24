@@ -1,0 +1,15 @@
+providers:
+  - name: ollama-local
+    type: openai_compatible
+    base_url: "http://localhost:8080"
+    api_key: key_***
+    timeout: 2s
+
+models:
+  - name: bge-3
+    provider: ollama-local
+    upstream_model: ???
+    dimensions: 2048
+    max_input_tokens: 200
+    multilingual: true
+    enabled: true

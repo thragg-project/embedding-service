@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-template
+  namespace: go-template
+  labels:
+    app.kubernetes.io/name: go-template
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: go-template
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: go-template
+    spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: go-template
+          image: application-image
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+          env:
+            - name: LOGGER_LEVEL
+              value: info
+            - name: SERVER_HOST
+              value: 0.0.0.0
+            - name: SERVER_API_PORT
+              value: "8000"
+            - name: SERVER_HEALTHCHECK_PORT
+              value: "8081"
+            - name: SERVER_METRICS_PORT
+              value: "9090"
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: go-template-postgres
+                  key: host
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: go-template-postgres
+                  key: port
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: go-template-postgres
+                  key: database
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: go-template-postgres
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: go-template-postgres
+                  key: password
+            - name: GOBOX_GOOSE_TABLE_NAME
+              value: goose_db_version_outbox
+          ports:
+            - name: api
+              containerPort: 8000
+              protocol: TCP
+            - name: healthcheck
+              containerPort: 8081
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: healthcheck
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /
+              port: healthcheck
+            periodSeconds: 10
+            initialDelaySeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
