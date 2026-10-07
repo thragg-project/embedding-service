@@ -114,24 +114,26 @@ These values are passed to the image build and written into `internal/build`.
 
 ## GitHub Actions
 
-Pull requests run tests, linters, and a Buildah image build without publishing
+Pull requests run tests, linters, and a BuildKit image build without publishing
 the image. Each operation runs as a separate GitHub Actions job. Pushing a Git
 tag builds and publishes the image to Docker Hub.
 
 Configure the following repository settings before using the release workflow:
 
 - repository variable `DOCKERHUB_REPOSITORY`, for example `my-user/my-service`;
-- repository secret `DOCKERHUB_USERNAME`;
-- repository secret `DOCKERHUB_TOKEN` containing a Docker Hub access token.
+- repository or organization secret `DOCKERHUB_USERNAME`;
+- repository or organization secret `DOCKERHUB_TOKEN` containing a Docker Hub access token.
+
+Organization secrets must be available to this repository.
 
 The release workflow publishes the image with the exact Git tag as its Docker
 tag.
 
-The workflows use `go-runners` for Go jobs and `buildah-runners` for image
-jobs. These labels should point to separate ARC runner scale sets in
-Kubernetes. The Buildah runner must support GitHub Actions container jobs and
-provide the permissions required by Buildah, commonly through a privileged
-runner Pod or a configured rootless Buildah setup.
+The workflows use `k8s-runners` for all jobs. The ARC runners must support
+GitHub Actions container jobs and reach the BuildKit server at
+`tcp://buildkitd.buildkit.svc.cluster.local:1234`. Image jobs use
+`moby/buildkit:v0.33.0-ubuntu` and `buildctl` to build images; releases also
+push images to Docker Hub.
 
 ## API
 
