@@ -14,26 +14,7 @@ env:
   BUILDKIT_HOST: tcp://buildkitd.buildkit.svc.cluster.local:1234
 
 jobs:
-  build:
-    runs-on: k8s-runners
-    container:
-      image: moby/buildkit:v0.33.0-ubuntu
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-      - name: Build container image
-        run: |
-          buildctl build \
-            --frontend dockerfile.v0 \
-            --local context=. \
-            --local dockerfile=./build \
-            --opt filename=Dockerfile \
-            --opt build-arg:VERSION="${GITHUB_REF_NAME}" \
-            --opt build-arg:COMMIT_HASH="${GITHUB_SHA}" \
-            --opt build-arg:DATETIME="$(date -u +%FT%TZ)"
-
   publish:
-    needs: build
     runs-on: k8s-runners
     container:
       image: moby/buildkit:v0.33.0-ubuntu
@@ -50,7 +31,8 @@ jobs:
           export DOCKER_CONFIG
           trap 'rm -rf "$DOCKER_CONFIG"' EXIT
           AUTH="$(printf '%s:%s' "$DOCKERHUB_USERNAME" "$DOCKERHUB_TOKEN" | base64 | tr -d '\n')"
-          printf '{"auths":{"%s":{"auth":"%s"}}}\n' "$REGISTRY" "$AUTH" > "$DOCKER_CONFIG/config.json"
+          # BuildKit looks up Docker Hub credentials using its legacy index URL.
+          printf '{"auths":{"https://index.docker.io/v1/":{"auth":"%s"}}}\n' "$AUTH" > "$DOCKER_CONFIG/config.json"
 
           buildctl build \
             --frontend dockerfile.v0 \
