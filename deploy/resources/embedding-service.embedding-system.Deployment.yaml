@@ -39,6 +39,11 @@ spec:
               value: "8081"
             - name: SERVER_METRICS_PORT
               value: "9090"
+            - name: EMBEDDINGS_CONFIG_BASE64
+              valueFrom:
+                secretKeyRef:
+                  name: providers-config
+                  key: providers-config.yaml
           ports:
             - name: api
               containerPort: 8000
@@ -51,14 +56,14 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /livez
               port: healthcheck
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 2
           readinessProbe:
             httpGet:
-              path: /
+              path: /readyz
               port: healthcheck
             periodSeconds: 10
             initialDelaySeconds: 5

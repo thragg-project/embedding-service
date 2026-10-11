@@ -8,6 +8,7 @@ resources:
 
 secretGenerator:
   - name: providers-config
+    namespace: embedding-system
     files:
       - resources/providers-config.yaml
 
@@ -15,3 +16,6 @@ images:
   - name: application-image
     newName: docker.io/fr33dman/go-template
     newTag: latest
+
+generatorOptions:
+  disableNameSuffixHash: true
