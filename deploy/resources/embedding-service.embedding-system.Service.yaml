@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-template
-  namespace: go-template
+  name: embedding-service
+  namespace: embedding-system
   labels:
-    app.kubernetes.io/name: go-template
+    app.kubernetes.io/name: embedding-system
 spec:
   type: ClusterIP
   selector:
-    app.kubernetes.io/name: go-template
+    app.kubernetes.io/name: embedding-system
   ports:
     - name: api
       port: 8000
