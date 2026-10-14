@@ -1,6 +1,6 @@
 package embeddings
 
-import "github.com/fr33dman/go-template/internal/core"
+import "github.com/thragg-project/embedding-service/internal/core"
 
 type (
 	GenerateRequest struct {

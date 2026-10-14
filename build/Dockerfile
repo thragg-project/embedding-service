@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-    -ldflags="-X github.com/fr33dman/go-template/internal/build.Version=${VERSION} -X github.com/fr33dman/go-template/internal/build.CommitHash=${COMMIT_HASH} -X github.com/fr33dman/go-template/internal/build.Datetime=${DATETIME}" \
+    -ldflags="-X github.com/thragg-project/embedding-service/internal/build.Version=${VERSION} -X github.com/thragg-project/embedding-service/internal/build.CommitHash=${COMMIT_HASH} -X github.com/thragg-project/embedding-service/internal/build.Datetime=${DATETIME}" \
     -o /out/server ./cmd/server
 
 FROM scratch

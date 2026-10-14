@@ -1,4 +1,4 @@
-module github.com/fr33dman/go-template
+module github.com/thragg-project/embedding-service
 
 go 1.27.0
 

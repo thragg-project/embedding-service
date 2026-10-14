@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/fr33dman/go-template/internal/logger"
+	"github.com/thragg-project/embedding-service/internal/logger"
 )
 
 func TestLoggerWritesJSON(t *testing.T) {

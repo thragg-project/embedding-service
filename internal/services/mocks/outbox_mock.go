@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	services "github.com/fr33dman/go-template/internal/services"
+	services "github.com/thragg-project/embedding-service/internal/services"
 	gomock "go.uber.org/mock/gomock"
 )
 

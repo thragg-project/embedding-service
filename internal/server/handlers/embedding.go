@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fr33dman/go-template/internal/core"
-	apperrors "github.com/fr33dman/go-template/internal/errors"
-	"github.com/fr33dman/go-template/internal/server/gen"
-	"github.com/fr33dman/go-template/internal/services"
+	"github.com/thragg-project/embedding-service/internal/core"
+	apperrors "github.com/thragg-project/embedding-service/internal/errors"
+	"github.com/thragg-project/embedding-service/internal/server/gen"
+	"github.com/thragg-project/embedding-service/internal/services"
 )
 
 type EmbeddingService interface {

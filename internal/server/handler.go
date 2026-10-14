@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fr33dman/go-template/internal/server/gen"
+	"github.com/thragg-project/embedding-service/internal/server/gen"
 )
 
 type EmbeddingHandler interface {

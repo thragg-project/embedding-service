@@ -3,7 +3,7 @@ package embeddings
 import (
 	"context"
 
-	"github.com/fr33dman/go-template/internal/core"
+	"github.com/thragg-project/embedding-service/internal/core"
 )
 
 type (

@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fr33dman/go-template/internal/clients/embeddings"
-	"github.com/fr33dman/go-template/internal/clients/embeddings/openai"
-	"github.com/fr33dman/go-template/internal/heartbeat"
-	"github.com/fr33dman/go-template/internal/services"
-	"github.com/fr33dman/go-template/pkg/probes"
+	"github.com/thragg-project/embedding-service/internal/clients/embeddings"
+	"github.com/thragg-project/embedding-service/internal/clients/embeddings/openai"
+	"github.com/thragg-project/embedding-service/internal/heartbeat"
+	"github.com/thragg-project/embedding-service/internal/services"
+	"github.com/thragg-project/embedding-service/pkg/probes"
 )
 
 type (

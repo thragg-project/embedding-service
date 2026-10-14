@@ -1,4 +1,4 @@
-package go_template
+package embedding_service
 
 // SQL queries generation
 
