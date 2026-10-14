@@ -6,10 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fr33dman/go-template/internal/app"
-	"github.com/fr33dman/go-template/internal/build"
-	"github.com/fr33dman/go-template/internal/logger"
-	"github.com/fr33dman/go-template/internal/server"
+	"github.com/thragg-project/embedding-service/internal/app"
+	"github.com/thragg-project/embedding-service/internal/build"
+	"github.com/thragg-project/embedding-service/internal/logger"
+	"github.com/thragg-project/embedding-service/internal/server"
 )
 
 func main() {

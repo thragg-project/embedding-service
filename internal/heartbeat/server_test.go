@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/fr33dman/go-template/pkg/probes"
+	"github.com/thragg-project/embedding-service/pkg/probes"
 )
 
 func TestProbesServerRoutes(t *testing.T) {

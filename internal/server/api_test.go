@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fr33dman/go-template/internal/core"
-	apperrors "github.com/fr33dman/go-template/internal/errors"
-	"github.com/fr33dman/go-template/internal/server/handlers"
-	"github.com/fr33dman/go-template/internal/services"
+	"github.com/thragg-project/embedding-service/internal/core"
+	apperrors "github.com/thragg-project/embedding-service/internal/errors"
+	"github.com/thragg-project/embedding-service/internal/server/handlers"
+	"github.com/thragg-project/embedding-service/internal/services"
 )
 
 type fakeEmbeddingService struct{}

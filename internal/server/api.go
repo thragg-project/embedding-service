@@ -10,9 +10,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	echomiddleware "github.com/oapi-codegen/echo-middleware"
 
-	apperrors "github.com/fr33dman/go-template/internal/errors"
-	"github.com/fr33dman/go-template/internal/server/gen"
-	"github.com/fr33dman/go-template/internal/server/handlers"
+	apperrors "github.com/thragg-project/embedding-service/internal/errors"
+	"github.com/thragg-project/embedding-service/internal/server/gen"
+	"github.com/thragg-project/embedding-service/internal/server/handlers"
 )
 
 type APIServer struct {

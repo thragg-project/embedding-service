@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/fr33dman/go-template/internal/heartbeat"
-	"github.com/fr33dman/go-template/internal/server/handlers"
-	"github.com/fr33dman/go-template/pkg/probes"
+	"github.com/thragg-project/embedding-service/internal/heartbeat"
+	"github.com/thragg-project/embedding-service/internal/server/handlers"
+	"github.com/thragg-project/embedding-service/pkg/probes"
 )
 
 const shutdownTimeout = 10 * time.Second

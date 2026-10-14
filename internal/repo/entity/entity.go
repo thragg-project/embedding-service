@@ -6,10 +6,10 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/fr33dman/go-template/internal/core"
-	apperrors "github.com/fr33dman/go-template/internal/errors"
-	"github.com/fr33dman/go-template/internal/repo/entity/sqlc"
-	"github.com/fr33dman/go-template/pkg/database"
+	"github.com/thragg-project/embedding-service/internal/core"
+	apperrors "github.com/thragg-project/embedding-service/internal/errors"
+	"github.com/thragg-project/embedding-service/internal/repo/entity/sqlc"
+	"github.com/thragg-project/embedding-service/pkg/database"
 )
 
 type EntityRepository struct {

@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	embeddings "github.com/fr33dman/go-template/internal/clients/embeddings"
-	core "github.com/fr33dman/go-template/internal/core"
+	embeddings "github.com/thragg-project/embedding-service/internal/clients/embeddings"
+	core "github.com/thragg-project/embedding-service/internal/core"
 	gomock "go.uber.org/mock/gomock"
 )
 

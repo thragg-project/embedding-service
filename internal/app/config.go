@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/caarlos0/env"
 
-	"github.com/fr33dman/go-template/internal/clients/embeddings"
+	"github.com/thragg-project/embedding-service/internal/clients/embeddings"
 )
 
 type (

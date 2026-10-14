@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/fr33dman/go-template/internal/core"
-	apperrors "github.com/fr33dman/go-template/internal/errors"
+	"github.com/thragg-project/embedding-service/internal/core"
+	apperrors "github.com/thragg-project/embedding-service/internal/errors"
 )
 
 type fakeProvider struct{}

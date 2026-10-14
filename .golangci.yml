@@ -49,7 +49,7 @@ formatters:
       sections:
         - Standard
         - Default
-        - Prefix(github.com/fr33dman/go-template)
+        - Prefix(github.com/thragg-project/embedding-service)
     goimports:
       local-prefixes:
-        - github.com/fr33dman/go-template
+        - github.com/thragg-project/embedding-service

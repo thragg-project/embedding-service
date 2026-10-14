@@ -1,7 +1,7 @@
 package heartbeat
 
 import (
-	"github.com/fr33dman/go-template/pkg/probes"
+	"github.com/thragg-project/embedding-service/pkg/probes"
 )
 
 func NewProbes() *probes.Probes {
